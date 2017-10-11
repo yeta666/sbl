@@ -1,0 +1,165 @@
+程序包含内容：
+1. WebSocket
+    (1) 广播式
+    (2) 点对点式
+2. Favicon设置
+3. SSL配置
+    (1) 生成证书
+    (2) Spring Boot配置SSL
+    (3) http转向https
+4. 替换tomcat
+5. BootStrap三个meta标签
+    (1) <meta chartset="utf-8">
+    (2) <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    (3) <meta name="viewport" content="width=device-width, initial-scale=1">
+6. 让IE8支持HTML5元素和媒体查询
+    <!--[if lt IE 9]>
+        <script src="html5shiv.min.js"></script>
+        <script src="respond.min.js"></script>
+    <![endif]-->
+7. REST路径示例
+    (1) 列表 方法：get 路径：http://localhost:8888/users
+    (2) 单一对象 方法：get 路径：http://localhost:8888/users/1
+    (3) 分页 方法：get 路径：http://localhost:8888/users/?page=1&size=2
+    (4) 排序 方法：get 路径：http://localhost:8888/users/?sort=age,desc
+    (5) 保存 方法：post 路径：http://localhost:8888/users 数据：{"name": "yeta", "age": 10, "sex": "男"}
+    (6) 更新 方法：put 路径：http://localhost:8888/users/1 数据：{"name": "yeta", "age": 10, "sex": "男"}
+    (7) 删除 方法：delete 路径：http://localhost:8888/users/1
+8. Angular JS
+    (1) 简单应用，有BUG
+9. Websocket
+    (1) 广播式
+        (a) 一个浏览器向服务器发送消息，所有浏览器都能收到服务器回复的消息
+        (b) 消息发送者发送消息到主题（topic），多个消息接收者监听这个主题
+    (2) 点对点式
+        (a) 结合spring security，根据用户名对应发送消息
+        (b) 当消息发送者发送消息，消息代理获得消息后将消息放进一个队列（queue）里，当有消息接收者来接受消息的时候，消息将从队列里取出来传递给接收者
+        (c) 确保每一条消息只有唯一的发送者和接收者
+10. Spring Security
+    (1) AJAX方式登陆
+    (2) 增加验证码验证
+11. Spring Data JPA
+    (1) 根据属性名查询
+    (2) 使用JPA的NamedQuery查询
+    (3) 使用@Query查询
+    (4) Specification（包criterial中演示）
+    (5) 排序与分页
+12. 声明式事务
+    (1) 例：要新增的数据在数据库中已经存在，则回滚
+13. 数据缓存Cache
+    (1) @EnableCaching开启缓存支持
+    (2) @CachePut将新增或更新的数据放到缓存
+    (3) @CacheEvict将数据从缓存中删除
+    (4) @Cacheable将查询的数据放到缓存
+    (5) 切换缓存技术
+        (a) EhCache
+                <dependency>
+                    <groupId>net.sf.ehcache</groupId>
+                    <artifactId>ehcache</artifactId>
+                </dependency>
+        (b) ehcache.xml
+                <?xml version="1.0" encoding="UTF-8"?>
+                <ehcache>
+                    <cache name="people" maxElementsInMemory="1000" />
+                </ehcache>
+        (c) Guava
+                <dependency>
+                    <groupId>net.sf.ehcache</groupId>
+                    <artifactId>ehcache</artifactId>
+                </dependency>
+        (d) Redis
+                <dependency>
+                    <groupId>net.sf.ehcache</groupId>
+                    <artifactId>ehcache</artifactId>
+                </dependency>
+14. 非关系型数据库NoSQL
+    (1) 特点
+        (a) 不使用关系作为数据管理的数据库系统的统称
+        (b) 不使用SQL语言作为查询语言
+        (c) 数据存储也不是固定的表、字段
+    (1) MongoDB：基于文档的存储型数据库，使用面向对象的实现，每一条数据记录都是文档的对象
+    (2) Redis：基于键值对的开源内存数据存储，也可以做数据缓存
+15. 企业级消息代理
+    (1) JMS（Java消息服务），是基于JVM消息代理的规范，实现有ActiveMQ、HornetQ
+        spring.activemq.broker-url = tcp://localhost:61616      #消息代理的路径
+        spring.activemq.user =
+        spring.activemq.password =
+        spring.activemq.in-memory = true        #使用内存
+        spring.activemq.pooled = false      #不需要开启连接池
+    (2) AMQP，不仅兼容JMS，还支持跨语言和平台，实现有RabbitMQ
+        spring.rabbitmq.host = localhost        #rabbitmq服务器地址，默认为localhost
+        spring.rabbitmq.port = 5672     #rabbitmq端口，默认为5672
+        spring.rabbitmq.username = admin
+        spring.rabbitmq.password = secret
+16. Spring Boot开发的热部署
+    (1) 模板热部署
+        (a) spring.thymeleaf.cache = false
+        (b) spring.freemarker.cache = false
+        (c) spring.groovy.template.cache = false
+        (d) spring.velocity.cache = false
+    (2) Spring Loaded
+        (a) 可实现修改类文件的热部署
+        (b) 下载地址：http://repo.spring.io/simple/libs-release-local/org/springframework/springloaded/1.2.3.RELEASE/springloaded-1.2.3.RELEASE.jar
+        (c) 安装单击Run Configurations...
+        (d) Arguments/vm arguments: -javaagent:E:\springloaded-1.2.3.RELEASE.jar -noverify
+    (3) JRebel
+    (4) spring-boot-devtools
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
+17. 常规部署
+    (1) jar形式
+        (a) 打包：mvn package
+        (b) 运行：java -jar xx.jar
+    (2) war形式
+        (a) 新建项目时，选择Packaging:war，然后直接mvn package
+        (b) 新建项目时，选择Packaging:jar
+            (aa) 修改pom.xml   <packaging>jar</packaging>  -> <packaging>war</packaging>
+            (bb) 增加以下依赖覆盖默认内嵌的Tomcat依赖
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            (cc) 增加ServletInitializer类
+                import org.springframework.boot.builder.SpringApplicationBuilder;
+                import org.springframework.boot.context.web.SpringBootServletInitializer;
+                public class ServletInitializer extends SpringBootServletInitializer {
+                    @Override
+                    protected SpringApplicationBuilder configure (SpringApplicationBuilder application) {
+                        return application.sources(WarApplication.class);
+                    }
+                }
+18. 应用监控
+    端点名 | 描述
+    actuator | 所有EndPoint的列表，需加入spring HATEOAS支持
+    autoconfig | 当前应用的所有自动配置
+    beans | 当前应用中所有Bean的信息
+    configprops | 当前应用中所有的配置属性
+    dump | 显示当前应用线程状态信息
+    env | 显示当前应用当前环境信息
+    health | 显示当前应用健康状况
+    info | 显示当前应用信息
+    metrics | 显示当前应用的各项指标信息
+    mappings | 显示所有的@RequestMapping映射的路径
+    shutdown | 关闭当前应用（默认关闭）
+    trace | 显示追踪信息（默认最新的http请求）
+19. 分布式系统开发
+    (1) 微服务：使用定义好边界的小的独立组件来做好一件事情
+    (2) Spring Cloud基于Spring Boot为分布式开发提供了以下解决方案：
+        (a) 配置服务    @EnableConfigServer
+        Spring Cloud提供Config Server，支持在git或者在文件系统中放置配置文件
+        (b) 服务发现    @EnableEurekaServer
+        主要目的是为了让每个服务之间可以互相通信，Spring Cloud通过Netflix OSSde Eureka来实现
+        (c) 路由网关    @EnableZuulProxy
+        主要目的是为了让所有的微服务对外只有一个接口，只需访问一个网关地址，即可由网关将请求代理到不同的服务中，Spring Cloud通过Zuul来实现
+        (d) 负载均衡
+        Spring Cloud提供Ribbon和Feign作为客户端的负载均衡
+        使用Ribbon的话，直接注入一个RestTemplate对象，此时该对象已做好负载均衡的配置。
+        使用Feign的话，需要定义个注解，有@FeignClient注解的接口，然后使用@RequestMapping注解在方法上映射远程的REST服务，此方法也是做好负载均衡配置的
+        (e) 断路器
+        主要目的是为了解决当某个方法调用失败的时候，调用后备方法来替代失败的方法，以达到容错、阻止级联错误等。
+        Spring Cloud使用@EnableCircuitBreaker来启用断路器支持，使用@HystrixCommand的fallbackMethod来制定后备方法，使用@EnableHystrixDashboard来开启控制台监控断路器的运行情况
+
+

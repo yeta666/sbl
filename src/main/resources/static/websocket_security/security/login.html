@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="text/html" charset="UTF-8" />
+    <title>登陆页面</title>
+</head>
+<body>
+    <form action="/login" method="post">
+        用户名：<input id="username" type="text" name="username" value="" />
+        <br />
+        密码：<input id="password" type="password" name="password" value="" />
+        <br/>
+        验证码：<input id="code" type="text" name="code" value="" />
+        <br />
+        <input id="submit" type="button" value="登陆" />
+    </form>
+</body>
+    <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#submit").click(function(){
+                $.ajax({
+                    url: "/login",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        "username": $("#username").val().trim(),
+                        "password": $("#password").val().trim(),
+                        "code": $("#code").val().trim()
+                    },
+                    success: function(data){
+                        console.log(data);
+                        alert(data.message);
+                        if(data.success){
+                            window.location.href = data.url;
+                        }
+                    },
+                    error: function(XHR){
+                        alert(XHR.status);
+                    }
+                });
+            });
+        })
+    </script>
+</html>

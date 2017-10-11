@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>WebSocket广播式</title>
+</head>
+<body onload="disconnect()">
+    <noscript>
+        <h2>您的浏览器不支持websocket</h2>
+    </noscript>
+
+    <div>
+        <div>
+            <button id="connect" onclick="connect();">连接</button>
+            <button id="disconnect" onclick="disconnect();" disabled="disabled">断开连接</button>
+        </div>
+        <div id="conversationDiv">
+            <label>输入你的名字：</label>
+            <input type="text" id="name" />
+            <button id="sendName" onclick="sendName();">发送</button>
+            <p id="response"></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        var stompClient = null;
+
+        function setConnected(connected){
+            document.getElementById('connect').disabled = connected;
+            document.getElementById('disconnect').disabled = !connected;
+            document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
+            $('#response').html();
+        }
+
+        function connect(){
+            var socket = new SockJS('/endpoint/broadcast');       //连接SockJS的endpoint名称为“/endpoint/broadcast”
+            stompClient = Stomp.over(socket);       //使用STOMP子协议的WebSocket客户端
+            stompClient.connect({}, function(frame){        //连接WebSocket客户端
+               setConnected(true);
+               stompClient.subscribe('/topic/chat', function(response){      //订阅/topic/chat目标发送的消息
+                   $('#response').html(JSON.parse(response.body).response);
+               });
+            });
+        }
+
+        function disconnect(){
+            if(stompClient != null){
+                stompClient.disconnect();
+            }
+            setConnected(false);
+        }
+
+        function sendName(){
+            var name = $('#name').val();
+            stompClient.send('/broadcast/send', {}, name);        //向/broadcast/send发送消息
+        }
+
+    </script>
+</body>
+</html>
